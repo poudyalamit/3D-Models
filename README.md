@@ -1,5 +1,5 @@
 # 3D-Models
-A vite react that uses three.js for 3D- Models and AI powered website.
+3D-Models is a AI Powered Website made using vite and three.js.
 
 ## Tech Stack
 
