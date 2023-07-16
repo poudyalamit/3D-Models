@@ -1,4 +1,4 @@
-# 3D-Models
+## 3D-Models
 3D-Models is a AI Powered Website made using vite and three.js.
 
 ## Tech Stack
@@ -34,3 +34,8 @@ Start the Client
   cd client
   npm run dev
 ```
+
+## Made By
+This app is developed by Amit Poudyal. You can reach me through: - [@poudyalamit](https://www.linkedin.com/in/amit-poudyal)
+- [@poudyalamit](https://github.com/poudyalamit)
+
