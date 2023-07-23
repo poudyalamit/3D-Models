@@ -1,6 +1,6 @@
 import config from "../config/config/config"
 import state from "../store"
-import { download } from "../assets/assets/index"
+import { download } from "../assets/assets"
 import { downloadCanvasToImage, reader } from "../config/config/helpers"
 import { EditorTabs, FilterTabs, DecalTypes } from "../config/config/constants"
 import { fadeAnimation, slideAnimation } from "../config/config/motion"
@@ -45,7 +45,7 @@ const Customizer = () => {
     state[DecalType.stateProperty] = result;
 
     if (!activeFilterTab[DecalType.filterTab]) {
-      handleActiveFilterTab(DecalTypes.filterTab)
+      handleActiveFilterTab(DecalType.filterTab)
     }
   }
 
@@ -60,7 +60,9 @@ const Customizer = () => {
       default:
         state.isFullTexture = true;
         state.isLogoTexture = false;
+        break;
     }
+
     //after setting the state, activefiltertab is updated
 
     setActiveFilterTab((prevState) => {
@@ -77,22 +79,24 @@ const Customizer = () => {
         handleDecals(type, result);
         setActiveEditorTab("");
       })
-
   }
 
   return (
     <AnimatePresence>
       {!snap.intro && (
         <>
-          <motion.div className="absolute top-0 left-0 x-10"
-            {...slideAnimation("left")}>
+          <motion.div 
+          className="absolute top-0 left-0 z-10"
+            {...slideAnimation("left")}
+            >
             <div className="flex items-center min-h-screen">
               <div className="editortabs-container tabs" >
                 {EditorTabs.map((tab) => (
                   <Tab
                     key={tab.name}
                     tab={tab}
-                    handleClick={() => setActiveEditorTab(tab.name)} />
+                    handleClick={() => setActiveEditorTab(tab.name)} 
+                    />
                 ))}
                 {generateTabContent()}
               </div>
@@ -101,12 +105,14 @@ const Customizer = () => {
 
           <motion.div
             className="absolute z-10 top-5 right-5"
-            {...fadeAnimation}>
+            {...fadeAnimation}
+            >
             <CustomButton
               type={"filled"}
               title={"Go Back"}
               handleClick={() => state.intro = true}
-              customStyles={"w-fit px-4 py-2.5 font-bold text-sm"} />
+              customStyles="w-fit px-4 py-2.5 font-bold text-sm"
+            />
           </motion.div>
 
           <motion.div
@@ -118,8 +124,8 @@ const Customizer = () => {
                 key={tab.name}
                 tab={tab}
                 isFilterTab
-                isActiveTab=""
-                handleClick={() => { }}
+                isActiveTab={activeFilterTab[tab.name]}
+                handleClick={() => handleActiveFilterTab(tab.name)}
               />
             ))}
           </motion.div>
