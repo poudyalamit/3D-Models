@@ -45,7 +45,7 @@ const Customizer = () => {
     state[DecalType.stateProperty] = result;
 
     if (!activeFilterTab[DecalType.filterTab]) {
-      handleActiveFilterTab(decalType.filterTab)
+      handleActiveFilterTab(DecalTypes.filterTab)
     }
   }
 
@@ -61,6 +61,14 @@ const Customizer = () => {
         state.isFullTexture = true;
         state.isLogoTexture = false;
     }
+    //after setting the state, activefiltertab is updated
+
+    setActiveFilterTab((prevState) => {
+      return {
+        ...prevState,
+        [tabName]: !prevState[tabName]
+      }
+    })
   }
 
   const readFile = (type) => {
