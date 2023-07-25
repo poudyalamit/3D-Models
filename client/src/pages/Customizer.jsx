@@ -33,11 +33,44 @@ const Customizer = () => {
           readFile={readFile}
         />
       case "aipicker":
-        return <AIPicker />
+        return <AIPicker
+          prompt={prompt}
+          setPrompt={setPrompt}
+          generatingImg={generatingImg}
+          handleSubmit={handleSubmit}
+        />
       default:
         return null;
     }
   }
+
+  const handleSubmit = async (type) => {
+    if(!prompt) return alert("Please enter a prompt");
+
+    try {
+      setGeneratingImg(true);
+
+      const response = await fetch('http://localhost:8000/api/v1/dalle', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          prompt,
+        })
+      })
+
+      const data = await response.json();
+
+      handleDecals(type, `data:image/png;base64,${data.photo}`)
+    } catch (error) {
+      alert(error)
+    } finally {
+      setGeneratingImg(false);
+      setActiveEditorTab("");
+    }
+  }
+
 
   const handleDecals = (type, result) => {
     const DecalType = DecalTypes[type];
@@ -85,18 +118,18 @@ const Customizer = () => {
     <AnimatePresence>
       {!snap.intro && (
         <>
-          <motion.div 
-          className="absolute top-0 left-0 z-10"
+          <motion.div
+            className="absolute top-0 left-0 z-10"
             {...slideAnimation("left")}
-            >
+          >
             <div className="flex items-center min-h-screen">
               <div className="editortabs-container tabs" >
                 {EditorTabs.map((tab) => (
                   <Tab
                     key={tab.name}
                     tab={tab}
-                    handleClick={() => setActiveEditorTab(tab.name)} 
-                    />
+                    handleClick={() => setActiveEditorTab(tab.name)}
+                  />
                 ))}
                 {generateTabContent()}
               </div>
@@ -106,7 +139,7 @@ const Customizer = () => {
           <motion.div
             className="absolute z-10 top-5 right-5"
             {...fadeAnimation}
-            >
+          >
             <CustomButton
               type={"filled"}
               title={"Go Back"}
